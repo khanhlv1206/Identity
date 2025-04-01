@@ -12,7 +12,11 @@ import com.example.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +29,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
     UserRepository userRepository;
@@ -41,6 +46,12 @@ public class UserService {
         user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
     }
+    public UserResponse getMyInfo(){
+        var context= SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(name).orElseThrow(()->  new AppException(ErrorCode.USER_NOTEXISTED));
+        return userMapper.toUserResponse(user);
+    }
     public UserResponse updateUser(String userId, UserUpdateRequest request){
         User user = userRepository.findById(userId)
                         .orElseThrow(() ->new RuntimeException("User not found"));
@@ -51,10 +62,16 @@ public class UserService {
     public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }
-public List<User> getUsers(){
-        return userRepository.findAll();
+    @PreAuthorize("hasRole('Admin')")
+public List<UserResponse> getUsers(){
+        log.info("In method getUsers");
+        return userRepository.findAll().stream()
+                .map(userMapper::toUserResponse).toList();
 }
+@PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getUser(String id){
-        return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found")));
+        log.info("In method getUser by Id");
+        return userMapper.toUserResponse(userRepository.findById(id)
+                .orElseThrow(()->new AppException(ErrorCode.USER_NOTEXISTED)));
     }
 }

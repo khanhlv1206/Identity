@@ -67,7 +67,7 @@ public class AuthenticationService {
                     .authenticated(true)
                     .build();
         }
-        private String generateToken (User user  ){
+        private String generateToken ( User user ) {
             JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
             JWTClaimsSet jwtClaimSet = new JWTClaimsSet.Builder()
                     .subject(user.getUsername())
