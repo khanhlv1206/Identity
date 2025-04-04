@@ -45,7 +45,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-       // user.setRoles(roles);
+        user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
     }
     public UserResponse getMyInfo(){
@@ -68,7 +68,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
     @PreAuthorize("hasRole('Admin')")
-public List<UserResponse> getUsers(){
+    public List<UserResponse> getUsers(){
         log.info("In method getUsers");
         return userRepository.findAll().stream()
                 .map(userMapper::toUserResponse).toList();

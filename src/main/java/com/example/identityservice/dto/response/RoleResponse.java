@@ -18,13 +18,8 @@ public class RoleResponse {
     String description;
     private List<PermissionDto> permissions;
 
-
-    /**
-     * DTO for {@link Permission}
-     */
     public static class PermissionDto implements Serializable {
         private String name;
         private String description;
-        Set<Permission> permissions;
     }
 }
