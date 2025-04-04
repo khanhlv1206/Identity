@@ -14,12 +14,13 @@ import java.util.List;
 public class PermissionService {
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
-    PermissionResponse  create(PermissionRequest request) {
+
+    public PermissionResponse  create(PermissionRequest request) {
         Permission permission = permissionMapper.toPermission(request);
         permission = permissionRepository.save(permission);
         return permissionMapper.toPermissionResponse(permission);
     }
-    List<PermissionResponse> getAll() {
+    public List<PermissionResponse> getAll() {
         var permissions = permissionRepository.findAll();
         return permissions.stream().map(permissionMapper::toPermissionResponse).toList();
     }

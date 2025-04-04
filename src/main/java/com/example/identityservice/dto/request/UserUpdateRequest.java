@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,6 +18,7 @@ public class UserUpdateRequest {
     String firstName;
     String lastName;
     LocalDate dob;
+    List<String> roles;
 
 
 

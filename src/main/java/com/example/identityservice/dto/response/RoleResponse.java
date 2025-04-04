@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -21,11 +22,9 @@ public class RoleResponse {
     /**
      * DTO for {@link Permission}
      */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class PermissionDto implements Serializable {
         private String name;
         private String description;
+        Set<Permission> permissions;
     }
 }
