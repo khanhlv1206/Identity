@@ -28,6 +28,7 @@ public class UserController {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @PostMapping
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+        log.info(" Controller Create user");
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();
