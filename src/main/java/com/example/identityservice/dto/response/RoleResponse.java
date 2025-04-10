@@ -1,12 +1,10 @@
 package com.example.identityservice.dto.response;
 
-import com.example.identityservice.entity.Permission;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @NoArgsConstructor

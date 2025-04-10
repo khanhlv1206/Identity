@@ -11,6 +11,4 @@ import lombok.experimental.FieldDefaults;
 public class PermissionRequest {
     private String name;
     private String description;
-
-
 }
